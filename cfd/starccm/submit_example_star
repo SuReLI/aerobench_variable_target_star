@@ -1,0 +1,25 @@
+#!/bin/sh
+#SBATCH --job-name=star
+#SBATCH --partition debug
+#SBATCH --time=02:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=3
+#SBATCH --ntasks-per-node=3
+#SBATCH --begin=now
+
+module load starccm/13.04
+
+export OMP_PROC_BIND=true
+export OMP_NUM_THREADS=1
+SLURM_NODEFILE=my_slurm_node.$$
+
+SIM_FILE=flatplate_coarse.sim
+MACRO_FILE=macro_externalfiles.java
+
+srun hostname | sort > $SLURM_NODEFILE
+
+echo $SLURM_NTASKS
+
+starccm -licpath "1999@flex1.cd-adapco.com" -licpath "1999@flex2.cd-adapco.com" -licpath "1999@flex3.cd-adapco.com" -machinefile $SLURM_NODEFILE -np $SLURM_NTASKS -time -batch $MACRO_FILE $SIM_FILE > output_star_$SLURM_JOB_ID
+
+rm $SLURM_NODEFILE

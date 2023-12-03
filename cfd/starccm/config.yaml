@@ -1,0 +1,78 @@
+#--------------------------------------------------------------------
+############################# RL config #############################
+#--------------------------------------------------------------------
+# only for DDPG, TD3 or SAC
+
+#------------- parameters common to DDPG, TD3 and SAC ---------------
+GAME : "STARCCMexternalfiles"
+
+MEMORY_CAPACITY : 500000        # for the Replay Memory
+BATCH_SIZE : 64
+GAMMA : 0.99                    # discount factor
+TAU : 0.005                     # update parameter of the target network
+
+ACTION_SIGMA : 0.0              # environment noise ([0 --> 0; 1 --> max_pitch])
+
+MAX_EPISODES : 1000             # number of training episodes
+MAX_STEPS : 150                 # max steps per episode
+PRE_FILL_EPISODES : 8           # number of pre-filling episodes
+
+# saving and plotting parameters
+FREQ_PLOT : 100
+FREQ_EVAL : 1
+FREQ_SAVE : "best"
+
+
+#-------------- parameters used only by DDPG and TD3 ----------------
+HIDDEN_LAYERS : [32, 32]        # NN size
+LEARNING_RATE_CRITIC : 0.001
+LEARNING_RATE_ACTOR : 0.001
+
+EXPLO_SIGMA : 0.05              # exploration noise
+
+
+#------------------- parameters used only by TD3 --------------------
+# next 2 parameters are set according to the founding paper
+UPDATE_SIGMA : 0.2
+UPDATE_CLIP : 0.5
+
+
+#------------------- parameters used only by SAC --------------------
+HIDDEN_VALUE_LAYERS : [32, 32]
+HIDDEN_Q_LAYERS : [32, 32]
+HIDDEN_PI_LAYERS : [32, 32]
+
+VALUE_LR : 0.001
+SOFTQ_LR : 0.001
+ACTOR_LR : 0.001
+
+AUTO_ALPHA : True
+ALPHA_LR : 0.001
+
+
+#--------------------------------------------------------------------
+############################ CFD config #############################
+#--------------------------------------------------------------------
+CFD_ITERATIONS : 1              # number of CFD iterations between two control iterations !!! careful, to set in macro_external.java too !!!
+DELTA_TIME : 0.00002            # time step !!! careful, to set in the CFD.sim too !!!
+
+# initial position
+XA : 0.0
+YA : 0.0
+UA : -10.0                      # !!! careful, to set in the CFD and load corresponding init !!!
+VA : 0.0
+
+# target position definition
+BTYPE : "random"
+DISTANCE_RANGE : [0.015, 0.021]
+ANGLE_RANGE : [-8., 8.]
+XB : -0.02
+YB : 0.002
+BTYPE_EVAL : "batch"
+#B_BATCH : [[-0.00996195, 0.0008771558], [-0.0149429, 0.00130734], [-0.0199239, 0.00174312], [-0.0124881, 0.000545242], [-0.0174833, 0.000763339], [-0.015, 0.], [-0.00996195, -0.0008771558], [-0.0149429, -0.00130734], [-0.0199239, -0.00174312], [-0.0124881, -0.000545242], [-0.0174833, -0.000763339]]
+#B_BATCH : [[-0.0148540, -0.0020876], [-0.0178248, -0.0025051], [-0.0207956, -0.0029226], [-0.0164598, -0.0011510], [-0.0194525, -0.0013603], [-0.018, 0.0], [-0.0148540, 0.0020876], [-0.0178248, 0.0025051], [-0.0207956, 0.0029226], [-0.0164598, 0.0011510], [-0.0194525, 0.0013603]]
+B_BATCH : [[-0.0148540, -0.0020876], [-0.0207956, -0.0029226], [-0.0148540, 0.0020876], [-0.0207956, 0.0029226]]
+
+# some parameters for the control problem
+MAX_PITCHRATE : 500.
+REWARD_TYPE : "dense"           #choose between dense and sparse
