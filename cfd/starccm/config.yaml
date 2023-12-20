@@ -13,14 +13,14 @@ TAU : 0.005                     # update parameter of the target network
 
 ACTION_SIGMA : 0.0              # environment noise ([0 --> 0; 1 --> max_pitch])
 
-MAX_EPISODES : 1000             # number of training episodes
+MAX_EPISODES : 100             # number of training episodes
 MAX_STEPS : 150                 # max steps per episode
 PRE_FILL_EPISODES : 8           # number of pre-filling episodes
 
 # saving and plotting parameters
-FREQ_PLOT : 100
-FREQ_EVAL : 1
-FREQ_SAVE : "best"
+FREQ_PLOT : 100                 # frequency at which plots are updated
+FREQ_EVAL : 10                  # evaluation frequency
+FREQ_SAVE : "best"              # frequency at which the models are saved (or the best model is saved)
 
 
 #-------------- parameters used only by DDPG and TD3 ----------------
@@ -38,9 +38,9 @@ UPDATE_CLIP : 0.5
 
 
 #------------------- parameters used only by SAC --------------------
-HIDDEN_VALUE_LAYERS : [32, 32]
-HIDDEN_Q_LAYERS : [32, 32]
-HIDDEN_PI_LAYERS : [32, 32]
+HIDDEN_VALUE_LAYERS : [32, 32]  # NN size
+HIDDEN_Q_LAYERS : [32, 32]      # NN size
+HIDDEN_PI_LAYERS : [32, 32]     # NN size
 
 VALUE_LR : 0.001
 SOFTQ_LR : 0.001
@@ -62,17 +62,18 @@ YA : 0.0
 UA : -10.0                      # !!! careful, to set in the CFD and load corresponding init !!!
 VA : 0.0
 
-# target position definition
-BTYPE : "random"
-DISTANCE_RANGE : [0.015, 0.021]
-ANGLE_RANGE : [-8., 8.]
-XB : -0.02
-YB : 0.002
+# target position
+BTYPE : "random"                # target position type let it set to random
+DISTANCE_RANGE : [0.015, 0.021] # definition of B domain - distance
+ANGLE_RANGE : [-8., 8.]         # definition of B domain - angle
+XB : -0.02                      # only used if BTYPE or BTYPE_EVAL is "fixed"
+YB : 0.002                      # only used if BTYPE or BTYPE_EVAL is "fixed"
+
+# target position definition for evaluation
 BTYPE_EVAL : "batch"
-#B_BATCH : [[-0.00996195, 0.0008771558], [-0.0149429, 0.00130734], [-0.0199239, 0.00174312], [-0.0124881, 0.000545242], [-0.0174833, 0.000763339], [-0.015, 0.], [-0.00996195, -0.0008771558], [-0.0149429, -0.00130734], [-0.0199239, -0.00174312], [-0.0124881, -0.000545242], [-0.0174833, -0.000763339]]
-#B_BATCH : [[-0.0148540, -0.0020876], [-0.0178248, -0.0025051], [-0.0207956, -0.0029226], [-0.0164598, -0.0011510], [-0.0194525, -0.0013603], [-0.018, 0.0], [-0.0148540, 0.0020876], [-0.0178248, 0.0025051], [-0.0207956, 0.0029226], [-0.0164598, 0.0011510], [-0.0194525, 0.0013603]]
+# list of B positions for evaluation (only used if BTYPE_EVAL is batch)
 B_BATCH : [[-0.0148540, -0.0020876], [-0.0207956, -0.0029226], [-0.0148540, 0.0020876], [-0.0207956, 0.0029226]]
 
 # some parameters for the control problem
-MAX_PITCHRATE : 500.
-REWARD_TYPE : "dense"           #choose between dense and sparse
+MAX_PITCHRATE : 500.            # maximum allowed pitch rate
+REWARD_TYPE : "dense"           # choose between dense and sparse

@@ -20,6 +20,6 @@ srun hostname | sort > $SLURM_NODEFILE
 
 echo $SLURM_NTASKS
 
-starccm -licpath "1999@flex1.cd-adapco.com" -licpath "1999@flex2.cd-adapco.com" -licpath "1999@flex3.cd-adapco.com" -machinefile $SLURM_NODEFILE -np $SLURM_NTASKS -time -batch $MACRO_FILE $SIM_FILE > output_star_$SLURM_JOB_ID
+starccm -licpath "1999@flex1.cd-adapco.com" -machinefile $SLURM_NODEFILE -np $SLURM_NTASKS -time -batch $MACRO_FILE $SIM_FILE > output_star_$SLURM_JOB_ID
 
 rm $SLURM_NODEFILE
